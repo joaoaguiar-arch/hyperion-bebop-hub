@@ -1,0 +1,7 @@
+02_Ativos_Brutos/
+03_Renderizacao/
+*.mp4
+*.wav
+*.parquet
+*.zip
+.DS_Store

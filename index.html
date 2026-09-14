@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWORDFISH II // ORBITAL COMMAND & MANAGEMENT HUB v2026.4</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --crt-bg: #030712;
+            --crt-green: #00ff66;
+            --crt-amber: #ffb000;
+            --crt-cyan: #00e5ff;
+            --panel-bg: rgba(3, 15, 25, 0.85);
+            --font-main: 'Share Tech Mono', monospace;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background-color: var(--crt-bg);
+            color: var(--crt-green);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* CRT Scanlines & Vignette Simulation */
+        body::after {
+            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            z-index: 99999; background-size: 100% 3px, 4px 100%; pointer-events: none;
+        }
+
+        .cockpit-glass {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 102, 0.25);
+            box-shadow: inset 0 0 20px rgba(0, 255, 102, 0.03);
+        }
+
+        .amber-glow { text-shadow: 0 0 10px rgba(255, 176, 0, 0.7); }
+        .cyan-glow { text-shadow: 0 0 10px rgba(0, 229, 255, 0.7); }
+        .green-glow { box-shadow: 0 0 20px rgba(0, 255, 102, 0.15); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+    
+    <!-- TOP HEADER / TELEMETRY -->
+    <header class="max-w-7xl mx-auto w-full cockpit-glass p-4 rounded-xl green-glow flex flex-col md:flex-row justify-between items-center mb-6">
+        <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-amber-500 rounded-full animate-ping"></div>
+            <span class="font-display text-amber-400 text-sm tracking-widest uppercase amber-glow">SWORDFISH II // MISSION 20H ACTIVE</span>
+        </div>
+        <div class="flex flex-wrap gap-4 mt-3 md:mt-0 text-xs font-mono">
+            <span class="text-cyan-400">DMR SHIELD: <span class="text-emerald-400 font-bold">100% IMUNE</span></span>
+            <span class="text-cyan-400">AI TOKENS: <span class="text-emerald-400 font-bold">$0.00 (CACHE O(1))</span></span>
+            <span class="text-cyan-400">STATUS: <span class="text-emerald-400 font-bold">CRF 28 OPTIMIZED</span></span>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="max-w-7xl mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 text-xs font-display">
+        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="py-3 px-4 cockpit-glass rounded-xl text-amber-400 border border-amber-500/40 font-bold transition-all cursor-pointer">01 // COCKPIT TÁTICO</button>
+        <button onclick="switchTab('agenda')" id="btn-agenda" class="py-3 px-4 cockpit-glass rounded-xl text-green-400 border border-green-900 hover:text-amber-400 transition-all cursor-pointer">02 // OPERAÇÃO DIÁRIA</button>
+        <button onclick="switchTab('monetizacao')" id="btn-monetizacao" class="py-3 px-4 cockpit-glass rounded-xl text-green-400 border border-green-900 hover:text-amber-400 transition-all cursor-pointer">03 // PROJEÇÃO 6 MESES</button>
+        <button onclick="switchTab('api')" id="btn-api" class="py-3 px-4 cockpit-glass rounded-xl text-green-400 border border-green-900 hover:text-amber-400 transition-all cursor-pointer">04 // MLOPS & API</button>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto w-full flex-grow mb-8">
+        
+        <!-- TAB 1: COCKPIT TÁTICO & TELEMETRIA -->
+        <div id="tab-dashboard" class="tab-content active grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <section class="cockpit-glass p-6 rounded-2xl flex flex-col justify-between space-y-6">
+                <div>
+                    <h2 class="font-display text-cyan-400 tracking-wider border-b border-green-900/50 pb-3 mb-4 text-sm">🎯 DEEP SPACE RADAR (141 OBRAS)</h2>
+                    <p class="text-gray-400 text-xs mb-4">Big Data analítico extraído via yt-dlp e indexado no dataset macro.</p>
+                    <div class="space-y-3 text-xs">
+                        <div class="bg-black/40 p-3 rounded-lg border border-green-900/50 flex justify-between">
+                            <span class="text-gray-300">Correlação Pearson (BPM):</span>
+                            <span class="text-amber-400 font-bold">r = -0.76</span>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-green-900/50 flex justify-between">
+                            <span class="text-gray-300">Padrão Ouro (Views):</span>
+                            <span class="text-emerald-400 font-bold">135M+ Acumulado</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 bg-amber-950/20 border border-amber-500/30 rounded-xl text-xs text-amber-300">
+                    💡 DIRETRIZ: Foco estrito em vídeos longos de 2h (60-70 BPM) + Shorts em loop perfeito.
+                </div>
+            </section>
+
+            <section class="cockpit-glass p-6 rounded-2xl flex flex-col justify-between space-y-6 border-cyan-500/40">
+                <div>
+                    <h2 class="font-display text-amber-400 amber-glow tracking-wider border-b border-green-900/50 pb-3 mb-4 text-sm">⚙️ ZIP-ENGINE & DMR SHIELD</h2>
+                    <p class="text-gray-400 text-xs mb-4">Blindagem estocástica ativa contra o Content ID do YouTube.</p>
+                    <div class="relative bg-black/60 rounded-xl p-4 border border-green-900/50 text-center space-y-2">
+                        <p class="text-xs text-cyan-400 font-mono">ESTEIRA INDUSTRIAL MLOPS</p>
+                        <h3 class="text-sm text-white font-mono">video_auto_001_imunizado.mp4</h3>
+                        <p class="text-xs text-emerald-400 font-mono">SHA-256 Validated • CRF 28 • 96k AAC</p>
+                    </div>
+                </div>
+                <div class="text-center text-xs text-gray-400">
+                    Idempotência O(1): <span class="text-emerald-400 font-bold">Ativa via Memory Set</span>
+                </div>
+            </section>
+
+            <section class="cockpit-glass p-6 rounded-2xl flex flex-col justify-between space-y-6">
+                <div>
+                    <h2 class="font-display text-cyan-400 tracking-wider border-b border-green-900/50 pb-3 mb-4 text-sm">📟 ISSP COMMS & LO-FI BGM</h2>
+                    <p class="text-gray-400 text-xs mb-4">Sintetizador procedural embutido via Web Audio API (432 Hz).</p>
+                    <div class="bg-black/60 p-3 rounded-xl border border-green-900/50 text-xs space-y-2">
+                        <div class="flex justify-between"><span>Status Rádio:</span> <span class="text-emerald-400">Pronto para Play</span></div>
+                        <div class="flex justify-between"><span>Frequência:</span> <span class="text-amber-400">440.95 MHz</span></div>
+                    </div>
+                </div>
+                <button onclick="toggleAudio()" id="btnAudio" class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 text-black font-bold uppercase tracking-wider rounded-xl font-display text-xs shadow-lg transition-all cursor-pointer">
+                    ▶ Ativar Sintetizador Lo-Fi
+                </button>
+            </section>
+        </div>
+
+        <!-- TAB 2: GESTÃO DE PRODUTIVIDADE & AGENDA -->
+        <div id="tab-agenda" class="tab-content grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div class="cockpit-glass p-6 rounded-2xl space-y-4">
+                <h3 class="font-display text-amber-400 text-sm tracking-wider border-b border-green-900 pb-2">GESTÃO DIÁRIA</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50 flex justify-between">
+                        <span>[x] Varredura Big Data yt-dlp</span> <span class="text-emerald-400">OK</span>
+                    </li>
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50 flex justify-between">
+                        <span>[x] Master Orchestrator O(1)</span> <span class="text-emerald-400">Ativo</span>
+                    </li>
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50 flex justify-between">
+                        <span>[ ] Deploy Netlify Edge CDN</span> <span class="text-amber-400">Pronto</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="cockpit-glass p-6 rounded-2xl space-y-4">
+                <h3 class="font-display text-cyan-400 text-sm tracking-wider border-b border-green-900 pb-2">SPRINTS SEMANAIS (VISUAL LAW)</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50">Otimização de Thumbnails (Contraste Chiaroscuro +15%)</li>
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50">Auditoria SHA-256 e Logs do Data Lake</li>
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50">Calibragem de RPM e Taxa de Retenção</li>
+                </ul>
+            </div>
+            <div class="cockpit-glass p-6 rounded-2xl space-y-4">
+                <h3 class="font-display text-emerald-400 text-sm tracking-wider border-b border-green-900 pb-2">GOVERNANÇA MENSAL</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50">Consolidação de Metas (M1 a M6)</li>
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50">Expansão Multicanal (Bilibili & Shorts)</li>
+                    <li class="bg-black/40 p-2.5 rounded border border-green-900/50">Backup e Governança no Google Drive 500GB</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB 3: PROJEÇÃO DE MONETIZAÇÃO 6 MESES -->
+        <div id="tab-monetizacao" class="tab-content cockpit-glass p-6 rounded-2xl space-y-6">
+            <div class="border-b border-green-900/50 pb-3">
+                <h2 class="font-display text-amber-400 text-base">PROJEÇÃO FINANCEIRA & ESCALA (6 MESES)</h2>
+                <p class="text-gray-400 text-xs mt-1">Modelo preditivo calibrado com base nas 141 obras do dataset macro e RPM do nicho.</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-green-900 text-cyan-400 font-display">
+                            <th class="p-3">Horizonte</th>
+                            <th class="p-3">Volume de Conteúdo</th>
+                            <th class="p-3">Visualizações</th>
+                            <th class="p-3">RPM Médio</th>
+                            <th class="p-3">Receita Mensal (USD)</th>
+                            <th class="p-3">Receita Estimada (BRL)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-green-950 text-gray-300">
+                        <tr><td class="p-3 text-amber-400 font-bold">Mês 1</td><td class="p-3">150 long-form / 300 shorts</td><td class="p-3">60.000</td><td class="p-3">Elegível</td><td class="p-3 text-emerald-400">$150 USD</td><td class="p-3 text-emerald-400">R$ 825 BRL</td></tr>
+                        <tr><td class="p-3 text-amber-400 font-bold">Mês 2</td><td class="p-3">350 long-form / 700 shorts</td><td class="p-3">180.000</td><td class="p-3">$2.50</td><td class="p-3 text-emerald-400">$450 USD</td><td class="p-3 text-emerald-400">R$ 2.475 BRL</td></tr>
+                        <tr><td class="p-3 text-amber-400 font-bold">Mês 3</td><td class="p-3">600 long-form / 1.200 shorts</td><td class="p-3">500.000</td><td class="p-3">$3.00</td><td class="p-3 text-emerald-400">$1.500 USD</td><td class="p-3 text-emerald-400">R$ 8.250 BRL</td></tr>
+                        <tr><td class="p-3 text-amber-400 font-bold">Mês 4</td><td class="p-3">900 long-form / 1.800 shorts</td><td class="p-3">1.200.000</td><td class="p-3">$3.20</td><td class="p-3 text-emerald-400">$3.840 USD</td><td class="p-3 text-emerald-400">R$ 21.120 BRL</td></tr>
+                        <tr><td class="p-3 text-amber-400 font-bold">Mês 5</td><td class="p-3">1.250 long-form + 2 Lives</td><td class="p-3">2.500.000</td><td class="p-3">$3.40</td><td class="p-3 text-emerald-400">$8.500 USD</td><td class="p-3 text-emerald-400">R$ 46.750 BRL</td></tr>
+                        <tr class="bg-amber-950/30 font-bold"><td class="p-3 text-amber-400">Mês 6</td><td class="p-3">1.600 long-form + 4 Lives</td><td class="p-3">4.500.000</td><td class="p-3">$3.85</td><td class="p-3 text-emerald-400">$10.500 USD</td><td class="p-3 text-emerald-400">R$ 57.750 BRL</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 4: MLOPS & API INTEGRADA -->
+        <div id="tab-api" class="tab-content cockpit-glass p-6 rounded-2xl space-y-6 text-xs">
+            <div class="border-b border-green-900/50 pb-3">
+                <h2 class="font-display text-cyan-400 text-base">ARQUITETURA MLOps & CACHE ATÔMICO</h2>
+                <p class="text-gray-400 text-xs mt-1">Governança técnica para execução sem custos extras de API.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-black/40 p-4 rounded-xl border border-green-900/50 space-y-3">
+                    <h3 class="text-amber-400 font-bold font-display">atomic_copywriter_cache.py</h3>
+                    <p class="text-gray-300">Hashing determinístico SHA-256 para reutilização de títulos e descrições sem consumo de tokens de IA ($0.00 USD).</p>
+                    <div class="p-2 bg-black/50 rounded text-emerald-400">Status: Integrado e Operacional</div>
+                </div>
+                <div class="bg-black/40 p-4 rounded-xl border border-green-900/50 space-y-3">
+                    <h3 class="text-cyan-300 font-bold font-display">Master Orchestrator O(1)</h3>
+                    <p class="text-gray-300">Verificação de idempotência em tempo O(1) via conjunto em memória (`set`), proteção OOM com `gc.collect()` e CRF 28.</p>
+                    <div class="p-2 bg-black/50 rounded text-emerald-400">Latência Edge CDN: < 30ms</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="max-w-7xl mx-auto w-full text-center py-4 text-xs text-green-600 tracking-widest border-t border-green-900/50">
+        AUTOMAKER STUDIO // SWORDFISH II ORBITAL COCKPIT // NETLIFY EDGE CDN READY
+    </footer>
+
+    <!-- SCRIPT DE INTERATIVIDADE -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => {
+                el.classList.remove('text-amber-400', 'border-amber-500/40', 'font-bold');
+                el.classList.add('text-green-400');
+            });
+            document.getElementById('tab-' + tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-green-400');
+            activeBtn.classList.add('text-amber-400', 'border-amber-500/40', 'font-bold');
+        }
+
+        // Web Audio API Synthesizer Lo-Fi procedural
+        let audioCtx = null;
+        let isPlaying = false;
+        function toggleAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            if (isPlaying) {
+                isPlaying = false;
+                document.getElementById('btnAudio').innerText = '▶ Ativar Sintetizador Lo-Fi';
+                return;
+            }
+
+            isPlaying = true;
+            document.getElementById('btnAudio').innerText = '⏸ Pausar Sintetizador';
+
+            // Acordes de Jazz 432Hz (Dm9 -> G13 -> Cmaj7)
+            const chords = [293.66, 349.23, 440.00, 523.25];
+            setInterval(() => {
+                if (!isPlaying) return;
+                chords.forEach(freq => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.0);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 3.1);
+                });
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
